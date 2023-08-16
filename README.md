@@ -11,10 +11,14 @@ tipo **Gradle** Project para gerenciamento das dependências e build do projeto
 #### Dependências:
 * Spring Web
 * Spring Actuator
+* Spring Data Jpa
 * DevTools
 * Lombok
 
-
+Docker:
+docker run -p 5432:5432 --name postgres \
+-e POSTGRES_USER=beerstore -e POSTGRES_PASSWORD=beerstore \
+-e POSTGRES_DB=beerstore -d postgres:15-alpine
 
 ### TDD e Exceptions
 
