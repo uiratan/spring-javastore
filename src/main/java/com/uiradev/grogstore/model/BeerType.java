@@ -2,8 +2,6 @@ package com.uiradev.grogstore.model;
 
 public enum BeerType {
 
-    LAGER,
-    PILSEN,
+    LAGER, PILSEN, IPA
 
-    IPA
 }

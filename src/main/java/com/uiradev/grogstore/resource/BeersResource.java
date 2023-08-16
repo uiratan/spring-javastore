@@ -1,8 +1,10 @@
 package com.uiradev.grogstore.resource;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.uiradev.grogstore.model.Beer;
+import com.uiradev.grogstore.repository.BeerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +13,17 @@ import java.util.List;
 @RequestMapping("/beers")
 public class BeersResource {
 
+    @Autowired
+    private BeerRepository beers;
+
     @GetMapping
-    public List<String> all() {
-        return Arrays.asList("Popeye Porter", "Cersei Weissbier", "Capim Limão do Velho Toby", "Teste");
+    public List<Beer> all() {
+        return beers.findAll();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Beer create(@RequestBody Beer beer) {
+        return beers.save(beer);
     }
 }
