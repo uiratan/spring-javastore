@@ -2,6 +2,7 @@ package com.uiradev.grogstore.resource;
 
 import com.uiradev.grogstore.model.Beer;
 import com.uiradev.grogstore.repository.BeerRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class BeersResource {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Beer create(@RequestBody Beer beer) {
+    public Beer create(@Valid @RequestBody Beer beer) {
         return beers.save(beer);
     }
 }

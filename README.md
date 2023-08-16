@@ -8,12 +8,13 @@ AWS e usando práticas DevOps.
 Aplicação criada com o [Spring Initializr](https://start.spring.io/) em **Java 17** com **Spring Boot** do 
 tipo **Gradle** Project para gerenciamento das dependências e build do projeto
 
-#### Dependências:
+#### Tecnologias
 * Spring Web
 * Spring Actuator
 * Spring Data Jpa
 * DevTools
 * Lombok
+* Bean Validation
 
 Docker:
 docker run -p 5432:5432 --name postgres \
