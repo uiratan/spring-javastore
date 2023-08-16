@@ -8,17 +8,31 @@ AWS e usando práticas DevOps.
 Aplicação criada com o [Spring Initializr](https://start.spring.io/) em **Java 17** com **Spring Boot** do 
 tipo **Gradle** Project para gerenciamento das dependências e build do projeto
 
-#### Tecnologias
+#### Dependências
 * Spring Web
 * Spring Actuator
 * Spring Data Jpa
+* PostgreSQL
 * DevTools
 * Lombok
 * Bean Validation
-* Postgres com Docker `docker run -p 5432:5432 --name postgres \
+
+### Database
+* Postgres via Docker 
+
+`docker run -p 5432:5432 --name postgres \
 -e POSTGRES_USER=beerstore -e POSTGRES_PASSWORD=beerstore \
 -e POSTGRES_DB=beerstore -d postgres:15-alpine`
-* 
+
+### Tratamento de erros centralizado com ControllerAdvice
+Não trata apenas mensagens de validação, vamos já
+prepara a aplicação para retornar mensagens de erro mais amigáveis em diversos cenários.
+
+Utilização do padrão Resource Based Error Codes, que
+consiste basicamente em criar códigos de erro por recurso. As mensagens são cadastradas em um arquivo de propriedades
+à parte, podendo também estar em vários idiomas.
+
+
 
 ### TDD e Exceptions
 
