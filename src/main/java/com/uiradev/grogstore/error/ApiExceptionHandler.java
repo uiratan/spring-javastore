@@ -1,6 +1,7 @@
 package com.uiradev.grogstore.error;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +38,20 @@ public class ApiExceptionHandler {
         return ResponseEntity.badRequest().body(ErrorResponse.of(HttpStatus.BAD_REQUEST, apiErrors));
     }
 
-    private ApiError parseErrorCodeToApiError(String code, Locale locale) {
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidFormatException(InvalidFormatException exception, Locale locale) {
+        final String errorCode = "generic-1";
+        final HttpStatus status = HttpStatus.BAD_REQUEST;
+        final ErrorResponse errorResponse = ErrorResponse.of(status,
+                parseErrorCodeToApiError(errorCode, locale, exception.getValue()));
+        return ResponseEntity.status(status).body(errorResponse);
+    }
+
+    private ApiError parseErrorCodeToApiError(String code, Locale locale, Object
+            ... args) {
         String message;
         try {
-            message = apiErrorMessageSource.getMessage(code, null, locale);
+            message = apiErrorMessageSource.getMessage(code, args, locale);
         } catch (NoSuchMessageException e) {
             LOGGER.error("Couldn't find any message for {} code under {} locale", code, locale);
             message = NO_MESSAGE_AVAILABLE;

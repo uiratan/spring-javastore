@@ -20,8 +20,7 @@ tipo **Gradle** Project para gerenciamento das dependências e build do projeto
 ### Database
 * Postgres via Docker 
 
-`docker run -p 5432:5432 --name postgres \
--e POSTGRES_USER=beerstore -e POSTGRES_PASSWORD=beerstore \
+`docker run -p 5432:5432 --name postgres -e POSTGRES_USER=beerstore -e POSTGRES_PASSWORD=beerstore 
 -e POSTGRES_DB=beerstore -d postgres:15-alpine`
 
 ### Tratamento de erros centralizado com ControllerAdvice
