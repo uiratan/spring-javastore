@@ -3,6 +3,7 @@ package com.uiradev.grogstore.service;
 import com.uiradev.grogstore.model.Beer;
 import com.uiradev.grogstore.repository.BeerRepository;
 import com.uiradev.grogstore.service.exception.BeerAlreadyExistException;
+import com.uiradev.grogstore.service.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,11 @@ public class BeerService {
 
     private boolean isUpdatingToADifferentBeer(Beer beer, Optional<Beer> beerByNameAndType) {
         return beer.alreadyExist() && !beerByNameAndType.get().equals(beer);
+    }
+
+    public void delete(final Long id) {
+        final Optional<Beer> beerById = beerRepository.findById(id);
+        final Beer beerToDelete = beerById.orElseThrow(EntityNotFoundException::new);
+        beerRepository.delete(beerToDelete);
     }
 }

@@ -34,4 +34,10 @@ public class BeersResource {
         beer.setId(id);
         return beerService.save(beer);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        beerService.delete(id);
+    }
 }
