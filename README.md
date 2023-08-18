@@ -2,7 +2,6 @@
 Projeto para estudo de desenvolvimento de API REST com Spring Boot, deploy na clound com
 AWS e usando práticas DevOps.
 
-
 ## API REST
 ### Spring Boot
 Aplicação criada com o [Spring Initializr](https://start.spring.io/) em **Java 17** com **Spring Boot** do 
@@ -31,10 +30,10 @@ Utilização do padrão Resource Based Error Codes, que
 consiste basicamente em criar códigos de erro por recurso. As mensagens são cadastradas em um arquivo de propriedades
 à parte, podendo também estar em vários idiomas.
 
-
-
-### TDD e Exceptions
-
+### TDD Utilizando Red -> Green -> Blue 
+* JUnit5
+* Mockito
+* Hamcrest
 
 ## DevOps
 

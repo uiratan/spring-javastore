@@ -1,18 +1,22 @@
 package com.uiradev.grogstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Beer {
 
     @Id
@@ -29,4 +33,12 @@ public class Beer {
     @DecimalMin(value = "0", message = "beers-4")
     private BigDecimal volume;
 
+    @JsonIgnore
+    public boolean isNew() {
+        return getId() == null;
+    }
+    @JsonIgnore
+    public boolean alreadyExist() {
+        return getId() != null;
+    }
 }

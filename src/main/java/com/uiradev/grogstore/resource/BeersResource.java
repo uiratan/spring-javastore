@@ -2,6 +2,7 @@ package com.uiradev.grogstore.resource;
 
 import com.uiradev.grogstore.model.Beer;
 import com.uiradev.grogstore.repository.BeerRepository;
+import com.uiradev.grogstore.service.BeerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,16 +16,22 @@ import java.util.List;
 public class BeersResource {
 
     @Autowired
-    private BeerRepository beers;
+    private BeerService beerService;
 
     @GetMapping
-    public List<Beer> all() {
-        return beers.findAll();
+    public List<Beer> findAll() {
+        return beerService.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Beer create(@Valid @RequestBody Beer beer) {
-        return beers.save(beer);
+        return beerService.save(beer);
+    }
+
+    @PutMapping("/{id}")
+    public Beer update(@PathVariable Long id, @Valid @RequestBody Beer beer) {
+        beer.setId(id);
+        return beerService.save(beer);
     }
 }
