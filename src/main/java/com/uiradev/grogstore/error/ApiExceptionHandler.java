@@ -28,7 +28,7 @@ public class ApiExceptionHandler {
     private final MessageSource apiErrorMessageSource;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException exception, Locale locale) throws JsonProcessingException {
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException exception, Locale locale) {
         Stream<ObjectError> errors = exception.getBindingResult().getAllErrors().stream();
         List<ApiError> apiErrors = errors
                 .map(ObjectError::getDefaultMessage)
@@ -44,6 +44,16 @@ public class ApiExceptionHandler {
         final HttpStatus status = HttpStatus.BAD_REQUEST;
         final ErrorResponse errorResponse = ErrorResponse.of(status,
                 parseErrorCodeToApiError(errorCode, locale, exception.getValue()));
+        return ResponseEntity.status(status).body(errorResponse);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleInternalServerError(Exception exception, Locale locale) {
+        LOGGER.error("Error not expected", exception);
+        final String errorCode = "error-1";
+        final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        final ErrorResponse errorResponse = ErrorResponse.of(status,
+                parseErrorCodeToApiError(errorCode, locale));
         return ResponseEntity.status(status).body(errorResponse);
     }
 
