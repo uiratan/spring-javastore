@@ -1,7 +1,7 @@
 package com.uiradev.grogstore.error;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.uiradev.grogstore.service.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +42,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErrorResponse> handleInvalidFormatException(InvalidFormatException exception, Locale locale) {
         final String errorCode = "generic-1";
         final HttpStatus status = HttpStatus.BAD_REQUEST;
-        final ErrorResponse errorResponse = ErrorResponse.of(status,
-                parseErrorCodeToApiError(errorCode, locale, exception.getValue()));
+        final ErrorResponse errorResponse = ErrorResponse.of(status, parseErrorCodeToApiError(errorCode, locale, exception.getValue()));
         return ResponseEntity.status(status).body(errorResponse);
     }
 
@@ -52,8 +51,15 @@ public class ApiExceptionHandler {
         LOGGER.error("Error not expected", exception);
         final String errorCode = "error-1";
         final HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        final ErrorResponse errorResponse = ErrorResponse.of(status,
-                parseErrorCodeToApiError(errorCode, locale));
+        final ErrorResponse errorResponse = ErrorResponse.of(status, parseErrorCodeToApiError(errorCode, locale));
+        return ResponseEntity.status(status).body(errorResponse);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessExceptions(BusinessException exception, Locale locale) {
+        final String errorCode = exception.getCode();
+        final HttpStatus status = exception.getStatus();
+        final ErrorResponse errorResponse = ErrorResponse.of(status, parseErrorCodeToApiError(errorCode, locale));
         return ResponseEntity.status(status).body(errorResponse);
     }
 
