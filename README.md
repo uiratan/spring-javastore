@@ -1,11 +1,9 @@
 # Spring Boot na AWS
-Projeto para estudo de desenvolvimento de API REST com Spring Boot, deploy na clound com
-AWS e usando práticas DevOps.
+Projeto para estudo de desenvolvimento de API REST com Spring Boot, deploy na clound com AWS e práticas DevOps.
 
 ## API REST
 ### Spring Boot
-Aplicação criada com o [Spring Initializr](https://start.spring.io/) em **Java 17** com **Spring Boot** do 
-tipo **Gradle** Project para gerenciamento das dependências e build do projeto
+Aplicação criada com o [Spring Initializr](https://start.spring.io/) em **Java 17** com **Spring Boot** do tipo **Gradle** Project para gerenciamento das dependências e build do projeto
 
 #### Dependências
 * Spring Web
@@ -26,11 +24,9 @@ tipo **Gradle** Project para gerenciamento das dependências e build do projeto
 Não trata apenas mensagens de validação, vamos já
 prepara a aplicação para retornar mensagens de erro mais amigáveis em diversos cenários.
 
-Utilização do padrão Resource Based Error Codes, que
-consiste basicamente em criar códigos de erro por recurso. As mensagens são cadastradas em um arquivo de propriedades
-à parte, podendo também estar em vários idiomas.
+Utilização do padrão Resource Based Error Codes, que consiste basicamente em criar códigos de erro por recurso. As mensagens são cadastradas em um arquivo de propriedades à parte, podendo também estar em vários idiomas.
 
-### TDD Utilizando Red -> Green -> Blue 
+### TDD
 * JUnit5
 * Mockito
 * Hamcrest
@@ -38,24 +34,30 @@ consiste basicamente em criar códigos de erro por recurso. As mensagens são ca
 ## DevOps
 
 ### AWS
-
-VPC - Virtual Private Cloud
-
-EC2 - Elastic Cloud Computing
-
-RDS - Relational Database Service
-
-ALB - Application Load Balancer
-
-IAM - Identity & Access Management
-
-CloudWatch - Billing
+* VPC - Virtual Private Cloud
+* EC2 - Elastic Cloud Computing
+* RDS - Relational Database Service
+* ALB - Application Load Balancer
+* IAM - Identity & Access Management
+* CloudWatch - Billing
+* SNS - Amazon Simple Notification Service
 
 ### Terraform
+Ferramenta para criars, atualizar e versionar a infraestrutura de uma maneira segura e eficiente.
+
+Provisionar tudo que for necessário na AWS: VPC, instâncias EC2, RDS e Load Balancer. 
+
+O Terraform mantém um estado da infraestrutura, o que permite trabalhar nas mudanças de forma incremental, ou seja, se você criou uma instância EC2 num primeiro momento mas depois resolveu criar um banco RDS, não será necessário destruir o EC2, será somente criado o novo RDS.
+
+Antes de toda a execução é apresentado o plano de execução com todas as mudanças que serão aplicadas na AWS, fornecendo a segurança de executar somente o que se espera que seja aplicado.
+
+
+### Ansible
+Instalar e configurar os softwares necessários nas EC2.
 
 ### Docker e Docker Swarm
 
-### Ansible
+
 
 ### Deploy em produção
 
