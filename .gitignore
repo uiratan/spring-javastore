@@ -38,10 +38,12 @@ out/
 
 ### terraform
 dados.txt
-.terraform
-/key
 # Local .terraform directories
 **/.terraform/*
+**/key/*
+
+*.lock
+*.lock.*
 
 # .tfstate files
 *.tfstate
