@@ -38,6 +38,7 @@ out/
 
 ### terraform
 dados.txt
+run.sh
 # Local .terraform directories
 **/.terraform/*
 **/key/*
