@@ -1,7 +1,7 @@
 resource "aws_vpc" "main" {
   cidr_block = var.cidr_vpc
   tags = {
-    Name = "grogstore"
+    Name = "grogstore-vpc"
   }
 }
 
@@ -49,4 +49,12 @@ resource "aws_route_table_association" "route_table_association" {
   count          = 3
   subnet_id      = element(aws_subnet.public_subnet.*.id, count.index)
   route_table_id = aws_route_table.route_igw.id
+}
+
+resource "aws_db_subnet_group" "db_subnet" {
+  name       = "grogstore_db_subnet"
+  subnet_ids = flatten(chunklist(aws_subnet.private_subnet.*.id, 1))
+  tags = {
+    Name = "grogstore_db_subnet"
+  }
 }

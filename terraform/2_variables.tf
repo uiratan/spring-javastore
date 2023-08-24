@@ -2,12 +2,6 @@ variable "cidr_vpc" {
   default = "192.168.0.0/16"
 }
 
-# variable "aws_region" {
-#   description = "AWS region"
-#   type        = string
-#   default     = "us-east-1"
-# }
-
 variable "availability_zones" {
   default = [
     "us-east-1a",
@@ -28,3 +22,10 @@ variable "instance_type" {
 }
 
 variable "my_public_cidr" {}
+
+variable "db_password" {}
+
+data "aws_caller_identity" "current" {}
+
+data "aws_availability_zones" "available" {}
+
