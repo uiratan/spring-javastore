@@ -17,8 +17,7 @@ Aplicação criada com o [Spring Initializr](https://start.spring.io/) em **Java
 ### Database
 * Postgres via Docker 
 
-`docker run -p 5432:5432 --name postgres -e POSTGRES_USER=beerstore -e POSTGRES_PASSWORD=beerstore 
--e POSTGRES_DB=beerstore -d postgres:15-alpine`
+`docker run –network beer-net -p 5432:5432 --name postgres -e POSTGRES_USER=beerstore -e POSTGRES_PASSWORD=beerstore -e POSTGRES_DB=beerstore -d postgres:15-alpine`
 
 ### Tratamento de erros centralizado com ControllerAdvice
 Não trata apenas mensagens de validação, vamos já
@@ -34,12 +33,12 @@ Utilização do padrão Resource Based Error Codes, que consiste basicamente em 
 ## DevOps
 
 ### AWS
+* CloudWatch - Billing
+* IAM - Identity & Access Management
 * VPC - Virtual Private Cloud
 * EC2 - Elastic Cloud Computing
 * RDS - Relational Database Service
 * ALB - Application Load Balancer
-* IAM - Identity & Access Management
-* CloudWatch - Billing
 * SNS - Amazon Simple Notification Service
 
 ### Terraform
@@ -51,6 +50,7 @@ O Terraform mantém um estado da infraestrutura, o que permite trabalhar nas mud
 
 Antes de toda a execução é apresentado o plano de execução com todas as mudanças que serão aplicadas na AWS, fornecendo a segurança de executar somente o que se espera que seja aplicado.
 
+`aws rds describe-db-engine-versions --default-only --engine postgres`
 
 ### Ansible
 Instalar e configurar os softwares necessários nas EC2.
