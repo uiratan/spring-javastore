@@ -13,11 +13,14 @@ Aplicação criada com o [Spring Initializr](https://start.spring.io/) em **Java
 * DevTools
 * Lombok
 * Bean Validation
+* OpenAPI 3.0
 
 ### Database
 * Postgres via Docker 
 
-`docker run –network beer-net -p 5432:5432 --name postgres -e POSTGRES_USER=beerstore -e POSTGRES_PASSWORD=beerstore -e POSTGRES_DB=beerstore -d postgres:15-alpine`
+`docker run –-network beer-net -p 5432:5432 --name postgres -e POSTGRES_USER=grogstore -e POSTGRES_PASSWORD=grogstore -e POSTGRES_DB=grogstore -d postgres:15-alpine`
+
+docker run -p 5432:5432 --name postgres -e POSTGRES_USER=grogstore -e POSTGRES_PASSWORD=grogstore -e POSTGRES_DB=grogstore -d postgres:15-alpine
 
 ### Tratamento de erros centralizado com ControllerAdvice
 Não trata apenas mensagens de validação, vamos já
@@ -56,27 +59,60 @@ Antes de toda a execução é apresentado o plano de execução com todas as mud
 Instalar e configurar os softwares necessários nas EC2.
 
 ### Docker e Docker Swarm
+docker images
 
-
+docker system prune --all
+chmod a+x docker-entrypoint.sh
+docker-compose up -d db
+docker-compose up -d app
+docker-compose logs -f app
+docker run -p 8080:8080 -m 600M --memory-swap 800M e JAVA_OPTIONS='-Xmx300m' -d uiratan/grogstore
+chmod a+x run-ansible.sh
 
 ### Deploy em produção
 
 
+## Passo a passo 
 
+#### Buildar a aplicação
+gradle clean
+gradle build
 
+#### Gerar imagem Docker
+docker build -t uiratan/grogstore:0.1 .
+docker push uiratan/grogstore:0.1
 
-### Reference Documentation
+#### Provisionar infraestrutura na AWS
+cd terraform
+./util/run.sh
 
-### Guides
-The following guides illustrate how to use some features concretely:
+Resources: 26
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
+* Backend no S3
+* 1 VPC
+* 1 subenet pública
+* 1 subenet privada
+* 1 subnet group de banco de com as subnets privadas associadas a ele
+* 1 internet gateway
+* 1 tabela de rotas com saída para o igw
+* 5 grupos de segurança
+* * SSH
+* * Conexão ao DB
+* * Internet
+* * Comunicação do cluster swarm
+* * Acesso ao Portainer
+* 3 instâncias EC2 (t2.micro) rodando Amazon Linux 
+* * 1 par de chaves
+* * 1 instância nas primeiras 2 zonas de disponibilidade dentro de uma mesma zona
+* * Grupos de segurança: SSH, Internet, cluster e portainer
+* * Geração do arquivo hosts.tpl com os IPs das instâncias para utilização pelo Ansible
+* 1 DB Postgres 15.3 no RDS
+* * Grupo de segurança: DB
+* * Associado ao subnet group de banco
 
-### Additional Links
-These additional references should also help you:
+public_ip = "3.93.63.105, 54.205.44.59, 18.206.241.133"
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+#### Instalar software nas instâncias
+cd ../ansible
+./run-ansible.sh
 
